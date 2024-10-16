@@ -12,7 +12,7 @@ class LatestAiDevelopmentCrew():
 			config=self.agents_config['researcher'],
 			verbose=True,
 			tools=[SerperDevTool()],
-			llm="ollama/llama3.2"
+			# llm="ollama/llama3.2"
 		)
 
 	@agent
