@@ -1,18 +1,46 @@
 research_task:
   description: >
     Conduct a thorough research about {topic}
-    Make sure you find any interesting and relevant information given
-    the current year is 2024.
+    Make sure you find any interesting and relevant information about {topic}.
+    The time period should be at least within the last 4 months. Today is {date}.
   expected_output: >
     A list with 10 bullet points of the most relevant information about {topic}
   agent: researcher
+  output_file: output/research.json
 
 reporting_task:
   description: >
     Review the context you got and expand each topic into a full section for a report.
     Make sure the report is detailed and contains any and all relevant information.
+    The report should be dated {date}. The audience should be a broad audience
+    with a wide range of expertise looking for insights into the latest developments
+    in {topic}.
   expected_output: >
     A fully fledge reports with the mains topics, each with a full section of information.
     Formatted as markdown without '```'
   agent: reporting_analyst
-  output_file: report.md
+  context: [research_task]
+  output_file: output/report.json
+
+formatting_task:
+  description: >
+    Format the executive report into a beautiful markdown document without '```'.
+    Follow these guidelines:
+    1. Use proper markdown headers (#, ##, ###)
+    2. Include emojis from the section_emoji field
+    3. Format key findings and insights as bullet points
+    4. Add proper spacing and sections breaks
+    5. Make recommendations stand out using blockquotes
+    6. Ensure the date is properly formatted
+    7. Add a table of contents at the beginning
+    8. Use horizontal rules (---) to separate major sections
+    9. Add inline citations for each major claim using (Author, Year) format
+    10. Include a Sources section at the end with numbered references
+    11. Each source should include title, publisher/author, and URL
+    12. Link inline citations to the corresponding entry in the Sources section
+  expected_output: >
+    A beautifully formatted markdown report with proper structure, spacing,
+    citations, and visual elements that enhance readability and presentation.
+  agent: formatter
+  context: [research_task, reporting_task]
+  output_file: output/report.md
